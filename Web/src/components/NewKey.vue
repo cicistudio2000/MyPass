@@ -66,15 +66,29 @@ export default {
                 return;
             }
 
-            var checkKeys = TestKeys.filter(mykey=>{
+            var filterKeys = MyTestKeys.filter(mykey=>{
                  if(mykey.Name.toLowerCase() === this.myName.toLowerCase())
                     return true;
             })
 
-            if(checkKeys.length>0){
+            if(filterKeys.length>0){
                   this.$Common.showMessage("不能和现有的名称重复！");
                 return;
             }
+
+            var keys = [
+                {UserName:this.username1, Password: this.password1},
+                {UserName:this.username2, Password: this.password2},
+                {UserName:this.username3, Password: this.password3},
+                {UserName:this.username4, Password: this.password4},
+                {UserName:this.username5, Password: this.password5},
+                {UserName:this.username6, Password: this.password6},
+                {UserName:this.username7, Password: this.password7},
+                {UserName:this.username8, Password: this.password8},
+                {UserName:this.username9, Password: this.password9},
+            ];
+            var newKey = { Name: this.myName, Remark:this.remarks, Keys:keys};
+            MyTestKeys.push(newKey);
         }
     },
     updated(){
