@@ -3,6 +3,7 @@
         <Header :isShowBackIcon= 'isShowBackIcon' headerTitle="www.chengchen.net"></Header>
          <mt-field label="名称" :disabled="true" placeholder="" v-model="myName"></mt-field>
          <mt-button @click="submit" type="primary" size="large">修改</mt-button>    
+         <mt-button @click="del" size="large">删除</mt-button>  
          <mt-field label="备注" placeholder="" type="textarea" v-model="remarks"></mt-field>       
         <mt-field label="用户1" placeholder="" v-model="username1"></mt-field>
         <mt-field label="密码1" placeholder="" v-model="password1"></mt-field>
@@ -27,6 +28,7 @@
 
 <script>
 import Header from './Header';
+import { MessageBox } from 'mint-ui';
 //import SecretKeys from '../js/keys.json';
 import ase from 'crypto-js/aes';
 
@@ -68,9 +70,13 @@ export default {
         this.getAndReadFile();
     },
     mounted(){
-         setTimeout(()=>{   //设置延迟执行
+        setTimeout(()=>{   
+                    window.scroll(0, 0);
+        },0); 
+
+        setTimeout(()=>{   //设置延迟执行
             this.init();
-        },500);
+        },500); 
     },
     methods:{
        init(){
@@ -133,6 +139,35 @@ export default {
                         break; 
                 }
             }
+       },
+       del(){
+            MessageBox.confirm('你确定要删除吗？', '提示', {
+                                  confirmButtonText: '确定',
+                                  cancelButtonText: '取消',
+                                  type: 'warning'
+                                }).then(() => {
+                                    this.delconfirmed();   
+                                })   
+       },
+       delconfirmed(){
+            var filterKeys = this.MySecretKeys.filter(mykey=>{
+                 if(mykey.Name.toLowerCase() === this.myName.toLowerCase())
+                    return true;
+            })
+            if(filterKeys.length===0){
+                this.$Common.showMessage("系统出错，无法加载数据，请联系管理员"); 
+                return;
+            }
+
+            //从数组中删除后再保存。
+            this.MySecretKeys.forEach(function(item, index, arr) {
+                if(item.Name === filterKeys[0].Name) {
+                    arr.splice(index, 1);
+                }
+            });
+
+            this.createAndWriteFile();
+
        },
        submit(){
             var filterKeys = this.MySecretKeys.filter(mykey=>{
@@ -256,7 +291,7 @@ export default {
             fileEntry.createWriter(function (fileWriter) {
                 //文件写入成功
                 fileWriter.onwriteend = function () {
-                    self.$Common.showMessage("修改成功");
+                    self.$Common.showMessage("保存成功");
                     console.log("Successful file write...");
 
                      //写入成功后跳转会主页
@@ -296,9 +331,6 @@ export default {
             this.$Common.showMessage("文件读取失败" + error);
         }
     },
-    updated(){
-        window.scroll(0, 0);
-    }
 }
 </script>
 

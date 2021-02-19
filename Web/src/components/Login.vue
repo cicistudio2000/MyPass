@@ -29,7 +29,7 @@ export default {
     },
     methods:{
         submit(){
-           if(this.password != "123456"){
+           if(this.password != "28284271"){
                 this.$Common.showMessage("无效的密码！"); 
                 return;
            }

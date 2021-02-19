@@ -66,6 +66,11 @@ export default {
     created(){
         this.getAndReadFile();
     },
+    mounted(){
+        setTimeout(()=>{   
+                    window.scroll(0, 0);
+        },0); 
+    },
     methods:{
         submit(){
             if(this.$Common.isEmpty(this.myName)){
@@ -235,8 +240,5 @@ export default {
             this.$Common.showMessage("文件读取失败" + error);
         }
     },
-    updated(){
-        window.scroll(0, 0);
-    }
 }
 </script>

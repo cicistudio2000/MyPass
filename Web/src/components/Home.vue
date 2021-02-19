@@ -46,6 +46,11 @@ export default {
         this.createAndWriteFile();
         this.getAndReadFile();
     },
+    mounted(){
+        setTimeout(()=>{   
+                    window.scroll(0, 0);
+          },0); 
+        },
     watch: {
         searchKey(val, oldval) {
             if(this.MySecretKeys.length>0){
@@ -58,9 +63,6 @@ export default {
                 })
             }
         }
-    },
-    updated(){
-        window.scroll(0, 0);
     },
     methods:{
         newKey(){
